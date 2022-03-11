@@ -1,12 +1,52 @@
 import { createStore } from "redux";
+import produce from "immer";
 
 const initialState = { counter: 0, showCounter: true };
 
-const counterReducer = (state = initialState, action) => {
-  if (action.type === "increment") {
+const initialGiftsState = {
+  users: [
+    {
+      id: "user1",
+      name: "John"
+    }
+  ],
+  currentUser: {
+    id: "user1",
+    name: "John"
+  },
+  gifts: [
+    {
+      id: "gift1",
+      description: "Gift 1 for Sasha",
+      image: "image1",
+      reservedBy: "user1"
+    }
+  ]
+};
+
+const giftsReducer = (state = initialGiftsState, action) => {
+  if (action.type === "add-gift") {
     return {
-      counter: state.counter + 1,
-      showCounter: state.showCounter
+      ...state,
+      gifts: [...state.gifts, action.payload]
+      // gifts: state.gifts.push(action.payload)
+    };
+  }
+
+  if (action.type === "add-gift") {
+    return produce(state, (draft) => {
+      draft.gifts.push(action.payload);
+    });
+  }
+};
+
+export const counterReducer = (state = initialState, action) => {
+  if (action.type === "increment") {
+    // return { ...state, counter: ++state.counter };
+    return {
+      ...state,
+      counter: state.counter + 1
+      // showCounter: state.showCounter
     };
   }
 
@@ -18,10 +58,13 @@ const counterReducer = (state = initialState, action) => {
   }
 
   if (action.type === "decrement") {
-    return {
-      counter: state.counter - 1,
-      showCounter: state.showCounter
-    };
+    // return {
+    //   counter: state.counter - 1,
+    //   showCounter: state.showCounter
+    // };
+    return produce(state, (draft) => {
+      draft.counter--;
+    });
   }
 
   if (action.type === "toggle") {
