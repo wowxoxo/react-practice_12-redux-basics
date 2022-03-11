@@ -1,5 +1,9 @@
-import { counterReducer } from ".";
+// import { counterReducer } from "./index-old";
+
 import deepFreeze from "deep-freeze";
+import { counterSlice } from ".";
+
+const counterReducer = counterSlice.reducer;
 
 describe("Tests for counter", () => {
   const initialState = { counter: 0, showCounter: true };
@@ -11,22 +15,26 @@ describe("Tests for counter", () => {
   });
 
   test("should return the incremented counter", () => {
-    expect(counterReducer(initialState, { type: "increment" })).toEqual({
-      counter: 1,
-      showCounter: true
-    });
+    expect(counterReducer(initialState, { type: "counter/increment" })).toEqual(
+      {
+        counter: 1,
+        showCounter: true
+      }
+    );
   });
 
   test("should return the decremented counter", () => {
-    expect(counterReducer(initialState, { type: "decrement" })).toEqual({
-      counter: -1,
-      showCounter: true
-    });
+    expect(counterReducer(initialState, { type: "counter/decrement" })).toEqual(
+      {
+        counter: -1,
+        showCounter: true
+      }
+    );
   });
 
   test("should return the increased counter", () => {
     expect(
-      counterReducer(initialState, { type: "increase", value: 5 })
+      counterReducer(initialState, { type: "counter/increase", payload: 5 })
     ).toEqual({
       counter: 5,
       showCounter: true
@@ -34,7 +42,7 @@ describe("Tests for counter", () => {
   });
 
   test("should return the toggled counter", () => {
-    expect(counterReducer(initialState, { type: "toggle" })).toEqual({
+    expect(counterReducer(initialState, { type: "counter/toggle" })).toEqual({
       counter: 0,
       showCounter: false
     });
