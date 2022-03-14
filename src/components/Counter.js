@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { counterActions } from "../store";
+import { counterActions, toggleWithDelay } from "../store";
 import classes from "./Counter.module.css";
 
 const Counter = () => {
@@ -8,7 +8,10 @@ const Counter = () => {
   const show = useSelector((state) => state.counter.showCounter);
 
   const toggleCounterHandler = () => {
-    dispatch(counterActions.toggle());
+    // dispatch(counterActions.toggle());
+    // dispatch({ type: "counter/toggle", delay: 500 });
+    const cancel = dispatch(toggleWithDelay(1000));
+    cancel();
   };
 
   const decrementHandler = () => {

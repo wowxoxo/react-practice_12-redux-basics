@@ -1,6 +1,15 @@
-import { createSlice, configureStore } from "@reduxjs/toolkit";
+import { createSlice, configureStore, createAction } from "@reduxjs/toolkit";
+import { logger } from "../middleware/logger";
+import { scheduler } from "../middleware/scheduler";
 
 const initialCounterState = { counter: 0, showCounter: true };
+
+export const toggleWithDelay = (delay) => {
+  return {
+    type: "counter/toggle",
+    delay
+  };
+};
 
 export const counterSlice = createSlice({
   name: "counter",
@@ -43,8 +52,11 @@ const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
     counter: counterSlice.reducer
-  }
+  },
+  middleware: [logger, scheduler]
 });
+
+// export const store = createStore(rootReducer, applyMiddleware(logger));
 
 export const authActions = authSlice.actions;
 
