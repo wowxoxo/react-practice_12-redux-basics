@@ -15,26 +15,26 @@ describe("Tests for counter", () => {
   });
 
   test("should return the incremented counter", () => {
-    expect(counterReducer(initialState, { type: "counter/increment" })).toEqual(
-      {
-        counter: 1,
-        showCounter: true
-      }
-    );
+    expect(
+      counterReducer(initialState, counterSlice.actions.increment())
+    ).toEqual({
+      counter: 1,
+      showCounter: true
+    });
   });
 
   test("should return the decremented counter", () => {
-    expect(counterReducer(initialState, { type: "counter/decrement" })).toEqual(
-      {
-        counter: -1,
-        showCounter: true
-      }
-    );
+    expect(
+      counterReducer(initialState, counterSlice.actions.decrement())
+    ).toEqual({
+      counter: -1,
+      showCounter: true
+    });
   });
 
   test("should return the increased counter", () => {
     expect(
-      counterReducer(initialState, { type: "counter/increase", payload: 5 })
+      counterReducer(initialState, counterSlice.actions.increase(5))
     ).toEqual({
       counter: 5,
       showCounter: true
@@ -42,9 +42,11 @@ describe("Tests for counter", () => {
   });
 
   test("should return the toggled counter", () => {
-    expect(counterReducer(initialState, { type: "counter/toggle" })).toEqual({
-      counter: 0,
-      showCounter: false
-    });
+    expect(counterReducer(initialState, counterSlice.actions.toggle())).toEqual(
+      {
+        counter: 0,
+        showCounter: false
+      }
+    );
   });
 });
