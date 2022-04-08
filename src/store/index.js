@@ -1,6 +1,7 @@
 import { createSlice, configureStore, createAction } from "@reduxjs/toolkit";
 import { logger } from "../middleware/logger";
 import { scheduler } from "../middleware/scheduler";
+import { reducer as formReducer } from "redux-form";
 
 const initialCounterState = { counter: 0, showCounter: true };
 
@@ -51,7 +52,8 @@ const authSlice = createSlice({
 const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
-    counter: counterSlice.reducer
+    counter: counterSlice.reducer,
+    form: formReducer
   },
   middleware: [logger, scheduler]
 });
