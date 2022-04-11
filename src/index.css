@@ -24,3 +24,15 @@ button:active {
   background-color: #5b14ac;
   border-color: #5b14ac;
 }
+
+button[disabled] {
+  opacity: 0.5;
+}
+
+.error {
+  color: #f00;
+}
+
+.warning {
+  color: orange;
+}
