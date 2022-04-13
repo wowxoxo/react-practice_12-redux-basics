@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { Field, FieldArray, reduxForm } from 'redux-form';
+import { asyncValidate } from '../utils/asyncValidate';
+import { submit } from '../utils/submit';
+import { isEmail, minLength5 } from '../utils/validators';
 import classes from "./Auth.module.css";
 
 const upper = value => value && value.toUpperCase();
@@ -23,6 +26,7 @@ const renderInput = (field) => {
   return <div>
     <input {...input} type={type} placeholder={placeholder} id={id} />
     {cert && <span>{cert}</span>}
+    {meta.asyncValidating && <p>Async validating</p>}
     {meta.touched && meta.error && <span className="error">{meta.error}</span>}
   </div>;
 }
@@ -71,9 +75,6 @@ const validate = values => {
   return errors
 }
 
-const minLength = min => value => value && value.length < min ? `Must be ${min} characters long` : undefined
-const minLength5 = minLength(5)
-const isEmail = value => value && value.includes("@") ? undefined : "Should be correct email address" 
 
 const warn = values => {
   const warning = {}
@@ -85,7 +86,7 @@ const warn = values => {
 
 const AuthForm = (props) => {
   return (
-    <form onSubmit={props.handleSubmit}>
+    <form onSubmit={props.handleSubmit(submit)}>
       <div className={classes.control}>
         <label htmlFor="username">Username</label>
         <Field placeholder="username" component={renderInput} name="username" id="username" type="text" cert="my-cert" />
@@ -100,6 +101,10 @@ const AuthForm = (props) => {
         <label htmlFor="password">Password</label>
         <Field placeholder="password" component="input" name="password" id="password" type="password" />
       </div>
+      <div className={classes.control}>
+        <label htmlFor="confirmPassword">Confirm Password</label>
+        <Field placeholder="Confirm your password" component={renderInput} name="confirmPassword" id="confirmPassword" type="password" />
+      </div>
       <FieldArray name="contactPersons" component={renderContactPersons} />
       <button disabled={props.pristine}>Login</button>
     </form>
@@ -110,6 +115,9 @@ const AuthReduxForm = reduxForm({
   form: 'auth',
   // validate,
   // warn
+  asyncValidate,
+  // asyncBlurFields: ['password', 'confirmPassword'],
+  asyncChangeFields: ['password', 'confirmPassword']
 })(AuthForm);
 
 export default AuthReduxForm;
