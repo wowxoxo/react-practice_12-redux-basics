@@ -1,9 +1,15 @@
-import { reduxForm } from "redux-form";
+import { InjectedFormProps, reduxForm } from "redux-form";
 import { isEmail, required } from "../utils/validators";
 import { createField, Input } from "./common/FormControl";
 import classes from "./Auth.module.css";
 
-const LoginForm = ({ handleSubmit, error, message }) => {
+type LoginFormOwnProps = {
+  message: string;
+};
+
+const LoginForm: React.FC<
+  InjectedFormProps<LoginFormDataTypes, LoginFormOwnProps> & LoginFormOwnProps
+> = ({ handleSubmit, error, message }) => {
   return (
     <form onSubmit={handleSubmit}>
       <h2>{message}</h2>
@@ -29,10 +35,18 @@ const LoginForm = ({ handleSubmit, error, message }) => {
   );
 };
 
-const LoginReduxForm = reduxForm({ form: "login" })(LoginForm);
+const LoginReduxForm = reduxForm<LoginFormDataTypes, LoginFormOwnProps>({
+  form: "login"
+})(LoginForm);
 
-export const Login = () => {
-  const handleSubmit = (formData) => {
+export type LoginFormDataTypes = {
+  email: string;
+  password: string;
+  rememberMe: boolean;
+};
+
+export const Login: React.FC = () => {
+  const handleSubmit = (formData: LoginFormDataTypes) => {
     console.log("formData", formData);
   };
 
