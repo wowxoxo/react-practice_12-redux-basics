@@ -6,6 +6,7 @@ import UserProfile from "./components/UserProfile";
 import { useSelector } from "react-redux";
 import Auth2 from "./components/Auth2";
 import { Login } from "./components/Login.tsx";
+import { Login2 } from "./components/Login2";
 
 function App() {
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
@@ -15,8 +16,9 @@ function App() {
       <Header />
       {/* {!isAuth && <Auth />}
       {isAuth && <UserProfile />} */}
-      <Auth2 />
+      {/* <Auth2 /> */}
       {<Login />}
+      {<Login2 />}
       <Counter />
     </Fragment>
   );
