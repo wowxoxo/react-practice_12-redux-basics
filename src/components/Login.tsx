@@ -2,6 +2,7 @@ import { InjectedFormProps, reduxForm } from "redux-form";
 import { isEmail, required } from "../utils/validators";
 import { createField, GetStringKeys, Input } from "./common/FormControl";
 import classes from "./Auth.module.css";
+import { useEffect } from "react";
 
 type LoginFormOwnProps = {
   message: string;
@@ -10,6 +11,10 @@ type LoginFormOwnProps = {
 const LoginForm: React.FC<
   InjectedFormProps<LoginFormDataTypes, LoginFormOwnProps> & LoginFormOwnProps
 > = ({ handleSubmit, error, message }) => {
+  useEffect(() => {
+    console.warn("RERENDER");
+  });
+
   return (
     <form onSubmit={handleSubmit}>
       <h2>{message}</h2>
