@@ -14,7 +14,7 @@ export function submit(values) {
         username: "This username is not allowed",
         _error: "Auth failed!"
       });
-    } else if (values.password.length < 3) {
+    } else if (values?.password?.length < 3) {
       throw new SubmissionError({
         password: "Your password must be at least 3 characters",
         _error: "Auth failed!"

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Field, FieldArray, reduxForm } from 'redux-form';
+import { Field, FieldArray, FormSection, reduxForm } from 'redux-form';
 import { asyncValidate } from '../utils/asyncValidate';
 import { submit } from '../utils/submit';
 import { isEmail, minLength5 } from '../utils/validators';
@@ -84,6 +84,16 @@ const warn = values => {
   return warning
 }
 
+class Address extends Component {
+  render() {
+    return <div>
+      <Field name="street" component="input" type="text" placeholder="street" />
+      <br />
+      <Field name="city" component="input" type="text" placeholder="city" />
+    </div>
+  }
+}
+
 const AuthForm = (props) => {
   return (
     <form onSubmit={props.handleSubmit(submit)}>
@@ -105,6 +115,10 @@ const AuthForm = (props) => {
         <label htmlFor="confirmPassword">Confirm Password</label>
         <Field placeholder="Confirm your password" component={renderInput} name="confirmPassword" id="confirmPassword" type="password" />
       </div>
+      <Address />
+      <FormSection name="address">
+        <Address />
+      </FormSection>
       <FieldArray name="contactPersons" component={renderContactPersons} />
       <button disabled={props.pristine}>Login</button>
     </form>
