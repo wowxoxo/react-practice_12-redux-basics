@@ -1,25 +1,25 @@
-import { InjectedFormProps, reduxForm } from "redux-form";
+import { InjectedFormProps, reduxForm, Field } from "redux-form";
 import { isEmail, required } from "../utils/validators";
 import { createField, GetStringKeys, Input } from "./common/FormControl";
 import classes from "./Auth.module.css";
 
-type LoginFormOwnProps = {
-  message: string;
-};
-
-const LoginForm: React.FC<
-  InjectedFormProps<LoginFormDataTypes, LoginFormOwnProps> & LoginFormOwnProps
-> = ({ handleSubmit, error, message }) => {
+const LoginForm = ({ handleSubmit, error, message }) => {
   return (
     <form onSubmit={handleSubmit}>
       <h2>{message}</h2>
-      {createField<LoginFormValuesTypeKeys>(
+      {/* {createField<LoginFormValuesTypeKeys>(
         "email",
         "Email",
         [required, isEmail],
         Input
-      )}
-      {createField<LoginFormValuesTypeKeys>(
+      )} */}
+      <Field
+        name="email"
+        placeholder="Email"
+        validate={[required, isEmail]}
+        component={Input}
+      />
+      {/* {createField<LoginFormValuesTypeKeys>(
         "password",
         "Password",
         [required],
@@ -27,18 +27,25 @@ const LoginForm: React.FC<
         {
           type: "password"
         }
-      )}
-      {createField<LoginFormValuesTypeKeys>(
+      )} */}
+      <Field
+        name="password"
+        placeholder="Password"
+        validate={[required]}
+        component={Input}
+        type="password"
+      />
+      <Field name="rememberMe" component={Input} type="checkbox" />{" "}
+      <span>remember Me</span>
+      {/* {createField<LoginFormValuesTypeKeys>(
         "rememberMe",
         null,
         [],
         Input,
         { type: "checkbox" },
         "remember Me"
-      )}
-
+      )} */}
       {error && <div className="error">{error}</div>}
-
       <div>
         <button>Login</button>
       </div>
@@ -46,21 +53,12 @@ const LoginForm: React.FC<
   );
 };
 
-const LoginReduxForm = reduxForm<LoginFormDataTypes, LoginFormOwnProps>({
+const LoginReduxForm = reduxForm({
   form: "login"
 })(LoginForm);
 
-export type LoginFormDataTypes = {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-  // 88: string;
-};
-
-type LoginFormValuesTypeKeys = GetStringKeys<LoginFormDataTypes>;
-
-export const Login2: React.FC = () => {
-  const handleSubmit = (formData: LoginFormDataTypes) => {
+export const Login2 = () => {
+  const handleSubmit = (formData) => {
     console.log("formData", formData);
   };
 
